@@ -39,6 +39,7 @@ Thumbs.db
 # -----------------------
 # Ignore your face database folder
 ai_engine/Database/
+backend/Test_Images
 
 # Ignore large datasets or model files
 *.h5
