@@ -1,6 +1,7 @@
 from deepface import DeepFace
 import cv2
 import matplotlib.pyplot as plt
+import pandas as pd
 import os
 
 def verify_face(input_image, database_path):
@@ -10,15 +11,15 @@ def verify_face(input_image, database_path):
     Handles all cases safely with try/except.
     """
     try:
-        # ✅ Check if input image exists
+        # Check if input image exists
         if not os.path.exists(input_image):
             raise FileNotFoundError(f"Input image not found: {input_image}")
 
-        # ✅ Check if database folder exists
+        # Check if database folder exists
         if not os.path.exists(database_path):
             raise FileNotFoundError(f"Database folder not found: {database_path}")
 
-        # ✅ Perform face search
+        # Perform face search
         results = DeepFace.find(img_path=input_image, db_path=database_path)
 
         # Debug: show type of results
