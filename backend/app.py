@@ -25,8 +25,10 @@ def match_face():
         database_path = data["database_path"]
 
         # 🔎 Debug prints to confirm paths
+        import os
         print("Input image path:", input_image)
         print("Database path:", database_path)
+        print("Does input image exist?", os.path.exists(input_image))
 
         matched_image, score = verify_face(input_image, database_path)
 
