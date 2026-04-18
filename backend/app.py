@@ -24,6 +24,10 @@ def match_face():
         input_image = data["input_image"]
         database_path = data["database_path"]
 
+        # 🔎 Debug prints to confirm paths
+        print("Input image path:", input_image)
+        print("Database path:", database_path)
+
         matched_image, score = verify_face(input_image, database_path)
 
         if matched_image:
