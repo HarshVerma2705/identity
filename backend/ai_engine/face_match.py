@@ -4,61 +4,51 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-def verify_face(input_image, database_path):
+def verify_face(input_image, database_path, model_name="VGG-Face"):
     """
     Compares input image against database using DeepFace.
-    Returns matched image path and similarity score.
-    Handles all cases safely with try/except.
+    Returns matched image path, similarity score, model name, and score column.
+    Handles DataFrame and list-of-DataFrames cases safely.
     """
     try:
-        # Check if input image exists
         if not os.path.exists(input_image):
             raise FileNotFoundError(f"Input image not found: {input_image}")
-
-        # Check if database folder exists
         if not os.path.exists(database_path):
             raise FileNotFoundError(f"Database folder not found: {database_path}")
 
-        # Perform face search
-        results = DeepFace.find(img_path=input_image, db_path=database_path)
-
-        # Debug: show type of results
+        results = DeepFace.find(
+            img_path=input_image,
+            db_path=database_path,
+            model_name=model_name
+        )
         print("Type of results:", type(results))
 
-        # Case 1: DeepFace returned a DataFrame
+        # Normalize to DataFrame
+        df = None
         if isinstance(results, pd.DataFrame):
-            if results.shape[0] > 0:
-                best_match = results.iloc[0]
-                matched_image_path = best_match['identity']
-                match_score = best_match['VGG-Face_cosine']
-                return matched_image_path, match_score
-            else:
-                return None, None
-
-        # Case 2: DeepFace returned a list (sometimes happens depending on version/config)
+            df = results
         elif isinstance(results, list):
-            if len(results) > 0 and isinstance(results[0], pd.DataFrame):
-                df = results[0]
-                if df.shape[0] > 0:
-                    best_match = df.iloc[0]
-                    matched_image_path = best_match['identity']
-                    match_score = best_match['VGG-Face_cosine']
-                    return matched_image_path, match_score
-            return None, None
+            for item in results:
+                if isinstance(item, pd.DataFrame) and item.shape[0] > 0:
+                    df = item
+                    break
 
-        # Case 3: Unexpected type
-        else:
-            print("Unexpected result type:", type(results))
-            return None, None
+        if df is None or df.shape[0] == 0:
+            return None, None, None, None
 
-    except FileNotFoundError as fnf_error:
-        print(f"File error: {fnf_error}")
-        return None, None
+        best_match = df.iloc[0]
+        matched_image_path = best_match['identity']
+
+        # Build expected score column dynamically
+        score_col = f"{model_name}_cosine"
+        match_score = best_match.get(score_col, None)
+
+        return matched_image_path, match_score, model_name, score_col
 
     except Exception as e:
         print(f"Error in verify_face: {e}")
-        return None, None
-
+        return None, None, None, None
+    
 
 def display_images(input_image, matched_image):
     """
