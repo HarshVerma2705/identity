@@ -2,3 +2,72 @@ node_modules/
 .env
 __pycache__/
 uploads/
+
+# -----------------------
+# Python / Flask ignores
+# -----------------------
+pycache/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+*.db
+
+# -----------------------
+# Virtual environments
+# -----------------------
+venv/
+env/
+.venv/
+
+# -----------------------
+# IDE / Editor files
+# -----------------------
+.vscode/
+.idea/
+*.swp
+
+# -----------------------
+# OS generated files
+# -----------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------
+# AI / ML project data
+# -----------------------
+# Ignore your face database folder
+ai_engine/Database/
+
+# Ignore large datasets or model files
+*.h5
+*.hdf5
+*.ckpt
+*.weights
+*.onnx
+
+# -----------------------
+# Jupyter notebooks checkpoints
+# -----------------------
+.ipynb_checkpoints/
+
+# -----------------------
+# Node.js (if frontend exists)
+# -----------------------
+node_modules/
+dist/
+build/
+
+# -----------------------
+# Images / media (optional)
+# -----------------------
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.gif
+*.tiff
+*.mp4
+*.avi
+*.mov
