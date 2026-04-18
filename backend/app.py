@@ -30,9 +30,7 @@ def match_face():
         print("Database path:", database_path)
         print("Does input image exist?", os.path.exists(input_image))
 
-        
-        print(os.path.exists("test_image.jpg"))       # True if file is in backend/
-        print(os.path.exists("../test_image.jpg"))    # True if file is in identity/
+        print("----------------------------------------------------------------------------------------------")
 
 
         matched_image, score = verify_face(input_image, database_path)
